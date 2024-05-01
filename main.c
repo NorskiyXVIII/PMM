@@ -3,7 +3,7 @@
 #include <stdint.h> 
 #include <locale.h>
  
-#define bool  int8_t 
+typedef int8_t bool;
 #define KB    (1024) 
 #define MB    (1024 * KB) 
 #define TRUE  1 
@@ -22,8 +22,8 @@ int init_header(struct mem_header_t* header, size_t mem_bytes);
 void print_header(struct mem_header_t* header); 
 int link_headers(struct mem_header_t* prev, struct mem_header_t* next); 
 // новые функции
-struct mem_header_t* mem_allocate(size_t mem_bytes);
-void mem_free(struct mem_header_t* mem_block);
+void* mem_allocate(size_t mem_bytes);
+void mem_free(void* mem_block);
 
 struct mem_header_t* start;
 
@@ -103,7 +103,7 @@ void print_header(struct mem_header_t* header) {
     printf("-----------------\n");
 }
 
-struct mem_header_t* mem_allocate(size_t mem_bytes) {
+void* mem_allocate(size_t mem_bytes) {
     struct mem_header_t* ret_adr = NULL;
     int i = 0;
     
@@ -117,16 +117,18 @@ struct mem_header_t* mem_allocate(size_t mem_bytes) {
     return ret_adr;
 }
 
-void mem_free(struct mem_header_t* mem_block) {
-    struct mem_header_t* prev_block = (struct mem_header_t*)mem_block->prev;
-    struct mem_header_t* next_block = (struct mem_header_t*)mem_block->next;
+void mem_free(void* mem_block) {
+    // закрой глаза на имя переменной, мне прост не хочется ее нормально именовать, я бы вообще a написал
+    struct mem_header_t* tr_block = (struct mem_header_t*) mem_block;
+    struct mem_header_t* prev_block = (struct mem_header_t*)tr_block->prev;
+    struct mem_header_t* next_block = (struct mem_header_t*)tr_block->next;
     
-    mem_block->size = 0;
-    mem_block->is_not_free = FALSE;
+    tr_block->size = 0;
+    tr_block->is_not_free = FALSE;
     if(next_block != NULL) {
         prev_block->next = next_block;
         next_block->prev = prev_block;
     }
-    mem_block->prev = NULL;
-    mem_block->next = NULL;
+    prev_block = NULL;
+    next_block = NULL;
 }
