@@ -10,6 +10,10 @@ At 18:09 05/01/24:
   - added test in main function
 
 
+At 18:41 05/01/24:
+  - now the memory allocation function returns (void*)
+  - now the memory release function gets void*
+
 Если по Русски:
 
 
@@ -24,3 +28,8 @@ At 18:09 05/01/24:
   - удален destroy_header
   - удален Херобрин
   - добавлены тесты в функции main
+
+
+  At 18:41 05/01/24:
+    - теперь функция выделения памяти возвращает void*
+    - теперь функция освобождения памяти получает void*
