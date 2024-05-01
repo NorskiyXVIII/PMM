@@ -1,3 +1,5 @@
+PMM is a physical memory manager.
+
 TODO:
   - fix free_mem
   - delete destroy_header
@@ -16,7 +18,7 @@ At 18:41 05/01/24:
 
 Если по Русски:
 
-
+PMM это физический менеджер памяти.
 
   Нада сделать:
 
